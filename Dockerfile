@@ -20,9 +20,12 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi && \
     chmod +x /usr/local/bin/bbctl
 
-# Copy bridge scripts and ensure they are executable
-COPY run_bridges.sh docker_entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/run_bridges.sh /usr/local/bin/docker_entrypoint.sh
+CMD /usr/local/bin/bbctl --help
 
-# Run entrypoint (bridges first, then idle loop)
+# Copy bridge runner script
+COPY run_bridges.sh /usr/local/bin/run_bridges.sh
+RUN chmod +x /usr/local/bin/run_bridges.sh
+
+# Copy entrypoint script to run bridges then keep container alive
+COPY docker_entrypoint.sh /usr/local/bin/docker_entrypoint.sh
 CMD /usr/local/bin/docker_entrypoint.sh
