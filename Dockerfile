@@ -20,6 +20,9 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi && \
     chmod +x /usr/local/bin/bbctl
 
-# Run bbctl --help once, then keep the container alive forever
-CMD /usr/local/bin/bbctl --help && \
-    while true; do sleep 86400; done
+# Copy bridge scripts and ensure they are executable
+COPY run_bridges.sh docker_entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/run_bridges.sh /usr/local/bin/docker_entrypoint.sh
+
+# Run entrypoint (bridges first, then idle loop)
+CMD /usr/local/bin/docker_entrypoint.sh
