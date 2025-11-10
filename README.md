@@ -12,8 +12,8 @@ Lightweight Docker image for running the Beeper Bridge Manager CLI (`bbctl`) and
 Run the published image directly from GitHub Container Registry:
 
 ```bash
-docker run -d ^
-  --name beeper-selfhost ^
+docker run -d \
+  --name bbctl_container \
   ghcr.io/bizbazboz/beeper-selfhost-docker:latest
 ```
 
